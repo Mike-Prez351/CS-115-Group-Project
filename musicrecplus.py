@@ -45,10 +45,43 @@ def enterPreferences(user, prefs):
         with open("musicrecplus.txt", "a") as file:
             file.writelines(line)
 
-def recommendations():
+def getRecommendations():
     '''Returns artists that the program recommends to the user. Written by 
-    ____'''
-    pass
+    Charles'''
+    mostSimilarUser = bestUser(currentUser, prefs, userList)
+    recommendations = notSimilar(prefs, userList[mostSimilarUser])
+    return recommendations
+
+def bestUser(currentUser, userList, prefs):
+    """This function checks each user in the userList to see which one is the best match. The way it does this(Charles)"""
+    users = list(userList.keys())
+    highestMatches = -1
+    best = 
+    for user in users: 
+        matches = matchCounter(prefs, userList[user])
+        if prefs not in userList[user]:
+            if highestMatches < matches: 
+                highestMatches = matchCounter(prefs, userList[user])
+                best = user
+    return best
+
+def notSimilar(L1,L2):
+    """This function will check the two artist lists of the users for different artists. An empty list called L3 is made outside of the for loop, and the for loop itself loops through
+    L2 to check if any given artist in L2 is in L1 or not, if an artist is found to be in L2 but not L1, then that artist will be added to L3(Charles)"""
+    L3 = []
+    for artist in L2: 
+        if artist not in L1: 
+            L3.append(artist)
+    return L3
+
+def matchCounter(L1,L2):
+    """This function will check how many matches two given users have with the inputs being both of the user's lists of artists. It will
+    loop through the first list and each time will check if any given artist in L1 is also in L2, if it is then matches which was initialized to 0 will increase by 1(Charles)"""
+    matches = 0
+    for artist in L1: 
+        if artist in L2: 
+            matches += 1
+    return matches
 
 def mostPopularArtists():
     '''Returns which artist is liked by the most users. Written by ____'''
