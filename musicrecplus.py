@@ -128,12 +128,10 @@ def popularity():
         for artist in userDict[user]:
             artistDict[artist] += 1
     mostPoints = 0
-    mostPopular = ""
     for artist in list(artistDict.keys()): 
         if artistDict[artist] > mostPoints: 
             mostPoints = artistDict[artist]
-            mostPopular = artist
-    return mostPoints
+    return mostPoints + 1
 
 def threeMostPopular():
     '''
@@ -176,7 +174,7 @@ def nameInFile(filename, string):
         for line in f:
             if line[0:len(string)] == string:
                 return True
-        return False
+    return False
         
 def fileExists():
     """
@@ -229,6 +227,10 @@ def main():
             return None
         else:
             print('Please select one of the listed operations.')
+
+if __name__ == '__main__': main()
+
+
 
 if __name__ == '__main__': main()
 
