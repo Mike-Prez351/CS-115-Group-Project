@@ -165,7 +165,7 @@ def nameInFile(filename, string):
         for line in f:
             if line[0:len(string)] == string:
                 return True
-            return False
+    return False
         
 def fileExists():
     """
