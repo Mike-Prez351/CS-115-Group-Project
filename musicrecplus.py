@@ -128,11 +128,9 @@ def popularity():
         for artist in userDict[user]:
             artistDict[artist] += 1
     mostPoints = 0
-    mostPopular = ""
     for artist in list(artistDict.keys()): 
         if artistDict[artist] > mostPoints: 
             mostPoints = artistDict[artist]
-            mostPopular = artist
     return mostPoints
 
 def threeMostPopular():
