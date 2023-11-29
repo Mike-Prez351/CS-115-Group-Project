@@ -131,7 +131,7 @@ def popularity():
     for artist in list(artistDict.keys()): 
         if artistDict[artist] > mostPoints: 
             mostPoints = artistDict[artist]
-    return mostPoints
+    return mostPoints + 1
 
 def threeMostPopular():
     '''
@@ -218,6 +218,10 @@ def main():
             return None
         else:
             print('Please select one of the listed operations.')
+
+if __name__ == '__main__': main()
+
+
 
 if __name__ == '__main__': main()
 
