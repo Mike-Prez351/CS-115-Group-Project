@@ -145,9 +145,18 @@ def threeMostPopular():
     userDict = loadUsers("musicrecplus.txt")
     for user in userDict: 
         for artist in userDict[user]:
-            artistDict[artist] += 1
-    print(artistDict)
-    artistDict = sorted(artistDict.items(), key=lambda x: x[1])
+            if artist == "\n":
+                pass
+            elif artist[-1] == "\n":
+                # artistName = artist[0:-1]
+                # print(artistName)
+                artistDict[artist] += 1
+            else: 
+                artistDict[artist] += 1
+    artistDict = dict(sorted(artistDict.items(), key=lambda x: x[1], reverse=True))
+    # print(artistDict)
+    topThreeArtists = list(artistDict.keys())[:3]
+    print(topThreeArtists)
     
 def mostLikes(userDict):
     '''This function creates a variable and initializes it to 0 called mostArtists, this will track the highest number of artists so far. The function loops through userDict and checks first if there's a dollar sign at the end 
@@ -167,7 +176,7 @@ def nameInFile(filename, string):
         for line in f:
             if line[0:len(string)] == string:
                 return True
-            return False
+        return False
         
 def fileExists():
     """
