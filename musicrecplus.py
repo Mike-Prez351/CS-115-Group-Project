@@ -13,7 +13,7 @@ def loadUsers(fileName):
     file = open(fileName, 'r')
     userLikes = {}
     for line in file:
-        [user, likes] = line.strip().split(':')
+        [user, likes] = line.split(':')
         likeList = likes.split(',')
         likeList.sort()
         userLikes[user] = likeList
@@ -31,7 +31,7 @@ def enterPreferences(user, userDict):
     """
     addPrefs = ""
     for x in userDict:
-        addPrefs = x.strip().title() + ","
+        addPrefs += x.strip().title() + ","
     addPrefs = addPrefs[:-1]
     if nameInFile("musicrecplus.txt", user):
         """
@@ -41,9 +41,8 @@ def enterPreferences(user, userDict):
         delete line from original file, either by reading all the lines first and not writing the line back or some other method
         append the new line, which is the original plus new recommendations
         """
-        pass
     else:
-        line = user + addPrefs + "\n"
+        line = user + ":" + addPrefs + "\n"
         with open("musicrecplus.txt", "a") as file:
             file.writelines(line)
 
@@ -55,7 +54,7 @@ def getRecommendations(currentUser, prefs, userDict):
     recommendations = notMatch(prefs, userDict[mostSimilarUser])
     return recommendations
 
-def bestMatch(currentUser, userDict, prefs):
+def bestMatch(user, userDict, prefs):
     """This function checks each user in the userDict to see which one is the best match. The way it does this is listing out the users in userDict since it uses keys() which will only return the names of the users.
     Then it will loop through each one of those users and run that user through the matchCounter function to test and see if that user has the highest amount of matches. If that user has more matches than the previous 
     highestMatches user, then it becomes the new highestMatches user and that user is assigned to the variable "best" which is returned at the end(Charles)"""
@@ -123,8 +122,8 @@ def popularity():
     a temporary dictionary using temporaryDict. The function then loops through userDict which is defined again within this function and then a for loop within that for loop loops through the prefs of any given user and for every 
     artist their number will go up by 1. Their number is attached to each artist in artistDict since temporaryDict made each one start at 0. The function then loops through the keys of artistDict and checks if their number value is 
     greater than the mostPoints value which is initialized to 0. If it is, then mostPoints becomes that new value and a mostPopular variable becomes the artist's name. Then the number is returned for the most popular artist or mostPoints(Charles)'''
-    artistDict = temporaryDict(artistList(loadUsers()))
-    userDict = loadUsers()
+    artistDict = temporaryDict(artistList(loadUsers("musicrecplus.txt")))
+    userDict = loadUsers("musicrecplus.txt")
     for user in userDict: 
         for artist in userDict[user]:
             artistDict[artist] += 1
@@ -140,9 +139,16 @@ def threeMostPopular():
     '''
     ffff
     3 lines
+    Jun Hong (first part copied from popularity to get a dictionary with all artists)
     '''
-    pass
-
+    artistDict = temporaryDict(artistList(loadUsers("musicrecplus.txt")))
+    userDict = loadUsers("musicrecplus.txt")
+    for user in userDict: 
+        for artist in userDict[user]:
+            artistDict[artist] += 1
+    print(artistDict)
+    artistDict = sorted(artistDict.items(), key=lambda x: x[1])
+    
 def mostLikes():
     '''Returns the user that likes the most artists. Written by
     ______'''
@@ -198,7 +204,7 @@ def main():
         if selection == 'r':
             print(recommendations())
         if selection == 'p':
-            print(mostPopularArtists())
+            print(threeMostPopular())
         if selection == 'h':
             print(popularity())
         if selection == 'm':
