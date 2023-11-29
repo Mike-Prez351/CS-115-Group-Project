@@ -6,11 +6,11 @@
 
 PREF_FILE = open("musicrecplus.txt", 'a')
 
-def loadUsers():
+def loadUsers(fileName):
     '''Reads in a file of stored users' preferences stored in the file
     fileName. Returns a dictionary containing a mapping of user names to a list
     of preferred artists. Written by Michael.'''
-    file = open("musicrecplus.txt", 'r')
+    file = open(fileName, 'r')
     userLikes = {}
     for line in file:
         [user, likes] = line.strip().split(':')
@@ -30,8 +30,8 @@ def enterPreferences(user, userDict):
     Jun Hong
     """
     addPrefs = ""
-    for x in prefs:
-        addPrefs = x.title() + ","
+    for x in userDict:
+        addPrefs = x.strip().title() + ","
     addPrefs = addPrefs[:-1]
     if nameInFile("musicrecplus.txt", user):
         """
@@ -88,7 +88,7 @@ def matchCounter(L1,L2):
             matches += 1
     return matches
 
-def saveUserPreferences(user, prefs, userDict[user], userDict): 
+def saveUserPreferences(user, prefs, userDict): 
     """This will update the preferences that the currentUser had stored in prefs, and set it equal to the values of that user within userDict, the user being the key to the prefs values. It then opens the file and 
     writes within the file the new data and closes it(Charles)"""
     userDict[user] = prefs
@@ -137,7 +137,10 @@ def popularity():
     return mostPoints
 
 def threeMostPopular():
-    '''ffff'''
+    '''
+    ffff
+    3 lines
+    '''
     pass
 
 def mostLikes():
@@ -169,7 +172,7 @@ def fileExists():
 
 def main():
     '''The main function of the program. Written by ______.'''
-    userDict = loadUsers()
+    userDict = loadUsers("musicrecplus.txt")
     fileExists()
     user = input('Please enter your name (put a $ symbol after your name if you wish your preferences to remain private): ')
     data = loadUsers('musicrecplus.txt')
