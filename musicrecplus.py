@@ -144,9 +144,15 @@ def threeMostPopular():
     pass
 
 def mostLikes():
-    '''Returns the user that likes the most artists. Written by
-    ______'''
-    pass
+    '''This function creates a variable and initializes it to 0 called mostArtists, this will track the highest number of artists so far. The function loops through userDict and checks first if there's a dollar sign at the end 
+    but if not then it checks the length of the artist list for a given user in userDict and if it's larger than the current mostArtists value then it becomes the new value. The name of that user is then stored in mostArtistsUser and then returned(Charles)'''
+    mostArtists = 0
+    for user in userDict: 
+        if user[-1] != '$': 
+            if len(userDict[user]) > mostArtists: 
+                mostArtists = len(userMap[user])
+                mostArtistsUser = user
+    return mostArtistsUser
 
 def nameInFile(filename, string):
     '''Returns whether or not a string is contained in a file. Written by
