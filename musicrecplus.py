@@ -143,14 +143,14 @@ def threeMostPopular():
     '''
     pass
 
-def mostLikes():
+def mostLikes(userDict):
     '''This function creates a variable and initializes it to 0 called mostArtists, this will track the highest number of artists so far. The function loops through userDict and checks first if there's a dollar sign at the end 
     but if not then it checks the length of the artist list for a given user in userDict and if it's larger than the current mostArtists value then it becomes the new value. The name of that user is then stored in mostArtistsUser and then returned(Charles)'''
     mostArtists = 0
     for user in userDict: 
         if user[-1] != '$': 
             if len(userDict[user]) > mostArtists: 
-                mostArtists = len(userMap[user])
+                mostArtists = len(userDict[user])
                 mostArtistsUser = user
     return mostArtistsUser
 
@@ -202,9 +202,9 @@ def main():
             newUserLikes = newUserLikes[0:-1]
             data[user] = newUserLikes
         if selection == 'r':
-            print(recommendations())
+            print(getRecommendations())
         if selection == 'p':
-            print(mostPopularArtists())
+            print(threeMostPopular())
         if selection == 'h':
             print(popularity())
         if selection == 'm':
@@ -216,3 +216,4 @@ def main():
             print('Please select one of the listed operations.')
 
 if __name__ == '__main__': main()
+
