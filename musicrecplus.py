@@ -14,10 +14,16 @@ def loadUsers(fileName):
     userLikes = {}
     for line in file:
         [user, likes] = line.split(':')
-        likeList = likes.split(',')
-        likeList.sort()
-        userLikes[user] = likeList
+        likes = likes[:-1]
+        if likes == "":
+            pass
+        else:
+            likeList = likes.split(',')
+            likeList.sort()
+            userLikes[user] = likeList
     file.close()
+    if userLikes == {}:
+        pass
     return userLikes
 
 def enterPreferences(user, userDict):
@@ -135,26 +141,23 @@ def popularity():
 
 def threeMostPopular():
     '''
-    ffff
-    3 lines
+    returns 3 most popular 
     Jun Hong (first part copied from popularity to get a dictionary with all artists)
     '''
     artistDict = temporaryDict(artistList(loadUsers("musicrecplus.txt")))
     userDict = loadUsers("musicrecplus.txt")
     for user in userDict: 
         for artist in userDict[user]:
-            if artist == "\n":
-                pass
-            elif artist[-1] == "\n":
-                # artistName = artist[0:-1]
-                # print(artistName)
-                artistDict[artist] += 1
+            if artist == "" or artist == '':
+                continue
             else: 
                 artistDict[artist] += 1
     artistDict = dict(sorted(artistDict.items(), key=lambda x: x[1], reverse=True))
-    # print(artistDict)
     topThreeArtists = list(artistDict.keys())[:3]
-    print(topThreeArtists)
+    print(topThreeArtists[0])
+    print(topThreeArtists[1])
+    print(topThreeArtists[2])
+
     
 def mostLikes(userDict):
     '''This function creates a variable and initializes it to 0 called mostArtists, this will track the highest number of artists so far. The function loops through userDict and checks first if there's a dollar sign at the end 
@@ -191,7 +194,7 @@ def fileExists():
 
 def main():
     '''The main function of the program. Written by ______.'''
-    userDict = loadUsers("musicrecplus.txt")
+    # loadUsers("musicrecplus.txt")
     fileExists()
     user = input('Please enter your name (put a $ symbol after your name if you wish your preferences to remain private): ')
     data = loadUsers('musicrecplus.txt')
@@ -217,7 +220,7 @@ def main():
         if selection == 'r':
             print(getRecommendations())
         if selection == 'p':
-            print(threeMostPopular())
+            threeMostPopular()
         if selection == 'h':
             print(popularity())
         if selection == 'm':
@@ -227,10 +230,6 @@ def main():
             return None
         else:
             print('Please select one of the listed operations.')
-
-if __name__ == '__main__': main()
-
-
 
 if __name__ == '__main__': main()
 
