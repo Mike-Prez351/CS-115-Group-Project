@@ -26,6 +26,20 @@ def loadUsers(fileName):
         pass
     return userLikes
 
+def findUser(searchUser, list):
+    """
+    tries to find a specific username in a list (which comes from a file)
+    returns n, which is the line where the username is if it's in the list
+    -1 if it isn't
+    Jun Hong
+    """
+    for n in range(len(list)):
+        line = list[n]
+        username = line.split(":")[0]
+        if username == searchUser:
+            return n
+    return -1
+
 def enterPreferences(user, userDict):
     """
     takes username and list of prefs, writes to file in this syntax:
@@ -40,6 +54,21 @@ def enterPreferences(user, userDict):
         addPrefs += x.strip().title() + ","
     addPrefs = addPrefs[:-1]
     if nameInFile("musicrecplus.txt", user):
+        with open("musicrecplus.txt", "r") as fileRead:
+            readContent = fileRead.readlines()
+        userIndex = findUser(user,readContent)
+        if userIndex != -1:
+            if addPrefs != "":
+                newLine = readContent[userIndex][:-1] + "," +  addPrefs + "\n"
+                with open("musicrecplus.txt", "w") as fileWrite:
+                    newFile = ""
+                    for i in range(len(readContent)):
+                        if i == userIndex:
+                            newFile += newLine
+                        else:
+                            newFile += readContent[i]
+                    print(newFile)
+                    fileWrite.write(newFile)
         """
         possible idea for this (since i don't inserting into a line is a thing)
         find where the line is
@@ -217,6 +246,7 @@ def main():
                 newUserLikes += [a]
             newUserLikes = newUserLikes[0:-1]
             data[user] = newUserLikes
+            enterPreferences(user, newUserLikes)
         if selection == 'r':
             print(getRecommendations())
         if selection == 'p':
