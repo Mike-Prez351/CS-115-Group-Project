@@ -193,8 +193,7 @@ def fileExists():
             file.write("")
 
 def main():
-    '''The main function of the program. Written by ______.'''
-    # loadUsers("musicrecplus.txt")
+    '''The main function of the program. Written by Michael.'''
     fileExists()
     user = input('Please enter your name (put a $ symbol after your name if you wish your preferences to remain private): ')
     data = loadUsers('musicrecplus.txt')
@@ -205,8 +204,7 @@ def main():
             a = input('Enter an artist that you like (Enter to finish): ')
             newUserLikes += [a]
         newUserLikes = newUserLikes[0:-1]
-        data[user] = newUserLikes
-        enterPreferences(user,newUserLikes)
+        data[user] = sorted(newUserLikes)
     while True:
         selection = input('Enter a letter to choose an option:' + '\n' + 'e - enter preferences' + '\n' + 'r - get recommendations' + '\n' + 'p - show most popular artists'  + '\n' + 'h - how popular is the most popular artist' + '\n' + 'm - which user has the most likes ' + '\n' + 'q - save and quit' + '\n')
         if selection == 'e':
@@ -216,7 +214,7 @@ def main():
                 a = input('Enter an artist that you like (Enter to finish): ')
                 newUserLikes += [a]
             newUserLikes = newUserLikes[0:-1]
-            data[user] = newUserLikes
+            data[user] = sorted(newUserLikes)
         if selection == 'r':
             print(getRecommendations())
         if selection == 'p':
