@@ -58,7 +58,10 @@ def getRecommendations(currentUser, prefs, userDict):
     artists that are not in the currentUser prefs which is then returned(Charles)'''
     mostSimilarUser = bestMatch(currentUser, userDict, prefs)
     recommendations = notMatch(prefs, userDict[mostSimilarUser])
-    return recommendations
+    if recommendations != []:
+        return recommendations
+    else:
+        print("No recommendations available at this time.")
 
 def bestMatch(user, userDict, prefs):
     """This function checks each user in the userDict to see which one is the best match. The way it does this is listing out the users in userDict since it uses keys() which will only return the names of the users.
@@ -69,7 +72,7 @@ def bestMatch(user, userDict, prefs):
     best = None
     for person in users: 
         matches = matchCounter(prefs, userDict[person])
-        if prefs not in userDict[person]:
+        if user != person and '$' not in person:
             if highestMatches < matches: 
                 highestMatches = matchCounter(prefs, userDict[person])
                 best = person
