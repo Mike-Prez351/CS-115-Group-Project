@@ -219,7 +219,7 @@ def main():
             newUserLikes = newUserLikes[0:-1]
             data[user] = sorted(newUserLikes)
         if selection == 'r':
-            print(getRecommendations())
+            print(getRecommendations(user, data[user], data))
         if selection == 'p':
             threeMostPopular()
         if selection == 'h':
@@ -227,7 +227,11 @@ def main():
         if selection == 'm':
             print(mostLikes(data))
         if selection == 'q':
-            # Update database if user is not private
+            if '$' not in user:
+                file = open('musicrecplus_ex2_a.txt', 'w')
+                for item in data:
+                    file.write(item + ':' + str(data[item]) + '\n')
+                file.close()
             return None
         else:
             print('Please select one of the listed operations.')
