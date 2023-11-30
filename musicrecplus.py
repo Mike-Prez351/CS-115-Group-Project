@@ -57,8 +57,8 @@ def getRecommendations(currentUser, prefs, userDict):
     to the currentUser. Then a variable called recommendations is made that takes the mostSimilarUser and puts them into the notSimilar function with L1 being the currentUser prefs and L2 being the mostSimilarUser list. This will end up being a new list of 
     artists that are not in the currentUser prefs which is then returned(Charles)'''
     mostSimilarUser = bestMatch(currentUser, userDict, prefs)
-    recommendations = notMatch(prefs, userDict[mostSimilarUser])
-    if recommendations != []:
+    if mostSimilarUser != None:
+        recommendations = notMatch(prefs, userDict[mostSimilarUser])
         return recommendations
     else:
         print("No recommendations available at this time.")
@@ -73,7 +73,7 @@ def bestMatch(user, userDict, prefs):
     for person in users: 
         matches = matchCounter(prefs, userDict[person])
         if user != person and '$' not in person:
-            if highestMatches < matches: 
+            if highestMatches < matches and matches != 0: 
                 highestMatches = matchCounter(prefs, userDict[person])
                 best = person
     return best
