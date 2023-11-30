@@ -85,9 +85,12 @@ def getRecommendations(currentUser, prefs, userDict):
     '''Returns artists that the program recommends to the user. It sets a variable called mostSimilarUser equal to the bestMatch function called with the parameters of the current user, prefs, and the userDict to find the best and most similar user
     to the currentUser. Then a variable called recommendations is made that takes the mostSimilarUser and puts them into the notSimilar function with L1 being the currentUser prefs and L2 being the mostSimilarUser list. This will end up being a new list of 
     artists that are not in the currentUser prefs which is then returned(Charles)'''
-    mostSimilarUser = bestMatch(currentUser, prefs, userDict)
-    recommendations = notMatch(prefs, userDict[mostSimilarUser])
-    return recommendations
+    mostSimilarUser = bestMatch(currentUser, userDict, prefs)
+    if mostSimilarUser != None:
+        recommendations = notMatch(prefs, userDict[mostSimilarUser])
+        return recommendations
+    else:
+        print("No recommendations available at this time.")
 
 def bestMatch(user, userDict, prefs):
     """This function checks each user in the userDict to see which one is the best match. The way it does this is listing out the users in userDict since it uses keys() which will only return the names of the users.
@@ -96,12 +99,12 @@ def bestMatch(user, userDict, prefs):
     users = list(userDict.keys())
     highestMatches = -1
     best = None
-    for user in users: 
-        matches = matchCounter(prefs, userDict[user])
-        if prefs not in userDict[user]:
-            if highestMatches < matches: 
-                highestMatches = matchCounter(prefs, userDict[user])
-                best = user
+    for person in users: 
+        matches = matchCounter(prefs, userDict[person])
+        if user != person and '$' not in person:
+            if highestMatches < matches and matches != 0: 
+                highestMatches = matchCounter(prefs, userDict[person])
+                best = person
     return best
 
 def notMatch(L1,L2):
@@ -222,8 +225,7 @@ def fileExists():
             file.write("")
 
 def main():
-    '''The main function of the program. Written by ______.'''
-    # loadUsers("musicrecplus.txt")
+    '''The main function of the program. Written by Michael.'''
     fileExists()
     user = input('Please enter your name (put a $ symbol after your name if you wish your preferences to remain private): ')
     data = loadUsers('musicrecplus.txt')
@@ -234,8 +236,7 @@ def main():
             a = input('Enter an artist that you like (Enter to finish): ')
             newUserLikes += [a]
         newUserLikes = newUserLikes[0:-1]
-        data[user] = newUserLikes
-        enterPreferences(user,newUserLikes)
+        data[user] = sorted(newUserLikes)
     while True:
         selection = input('Enter a letter to choose an option:' + '\n' + 'e - enter preferences' + '\n' + 'r - get recommendations' + '\n' + 'p - show most popular artists'  + '\n' + 'h - how popular is the most popular artist' + '\n' + 'm - which user has the most likes ' + '\n' + 'q - save and quit' + '\n')
         if selection == 'e':
@@ -245,18 +246,22 @@ def main():
                 a = input('Enter an artist that you like (Enter to finish): ')
                 newUserLikes += [a]
             newUserLikes = newUserLikes[0:-1]
-            data[user] = newUserLikes
+            data[user] = sorted(newUserLikes)
             enterPreferences(user, newUserLikes)
         if selection == 'r':
-            print(getRecommendations())
+            print(getRecommendations(user, data[user], data))
         if selection == 'p':
             threeMostPopular()
         if selection == 'h':
             print(popularity())
         if selection == 'm':
-            print(mostLikes())
+            print(mostLikes(data))
         if selection == 'q':
-            # Update database if user is not private
+            if '$' not in user:
+                file = open('musicrecplus_ex2_a.txt', 'w')
+                for item in data:
+                    file.write(item + ':' + str(data[item]) + '\n')
+                file.close()
             return None
         else:
             print('Please select one of the listed operations.')
