@@ -88,7 +88,7 @@ def getRecommendations(currentUser, prefs, userDict):
     mostSimilarUser = bestMatch(currentUser, userDict, prefs)
     if mostSimilarUser != None:
         recommendations = notMatch(prefs, userDict[mostSimilarUser])
-        return recommendations
+        print(recommendations)
     else:
         print("No recommendations available at this time.")
 
@@ -249,7 +249,7 @@ def main():
             data[user] = sorted(newUserLikes)
             enterPreferences(user, newUserLikes)
         if selection == 'r':
-            print(getRecommendations(user, data[user], data))
+            getRecommendations(user, data[user], data)
         if selection == 'p':
             threeMostPopular()
         if selection == 'h':
