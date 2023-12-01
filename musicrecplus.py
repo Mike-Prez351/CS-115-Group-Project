@@ -244,7 +244,8 @@ def main():
             newUserLikes = []
             while a != '':
                 a = input('Enter an artist that you like (Enter to finish): ')
-                newUserLikes += [a]
+                if a not in data[user]:
+                    newUserLikes += [a]
             newUserLikes = newUserLikes[0:-1]
             data[user] = sorted(data[user] + newUserLikes)
         if selection == 'r':
