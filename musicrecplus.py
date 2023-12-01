@@ -47,11 +47,14 @@ def enterPreferences(user, userDict):
     username:artist1,artist2,artist3,...
     colon between username and list of artists, commas separating artists
     also takes care of title case
-    DOES NOT TAKE CARE OF SORTING YET
     Jun Hong
     """
+
+    # print(userDict[user])
     addPrefs = ""
-    for x in userDict:
+    print(userDict)
+    artists = sorted(userDict[user])
+    for x in artists:
         addPrefs += x.strip().title() + ","
     addPrefs = addPrefs[:-1]
     if nameInFile("musicrecplus.txt", user):
@@ -61,6 +64,7 @@ def enterPreferences(user, userDict):
         if userIndex != -1:
             if addPrefs != "":
                 newLine = readContent[userIndex][:-1] + "," +  addPrefs + "\n"
+                print(newLine)
                 with open("musicrecplus.txt", "w") as fileWrite:
                     newFile = ""
                     for i in range(len(readContent)):
@@ -70,13 +74,6 @@ def enterPreferences(user, userDict):
                             newFile += readContent[i]
                     print(newFile)
                     fileWrite.write(newFile)
-        """
-        possible idea for this (since i don't inserting into a line is a thing)
-        find where the line is
-        copy the line
-        delete line from original file, either by reading all the lines first and not writing the line back or some other method
-        append the new line, which is the original plus new recommendations
-        """
     else:
         line = user + ":" + addPrefs + "\n"
         with open("musicrecplus.txt", "a") as file:
@@ -212,7 +209,8 @@ def nameInFile(filename, string):
     Michael.'''
     with open(filename, "r") as f:
         for line in f:
-            if line[0:len(string)] == string:
+            userInTxt = line.split(":")[0]
+            if userInTxt == string:
                 return True
     return False
         
@@ -239,9 +237,10 @@ def main():
         newUserLikes = []
         while a != '':
             a = input('Enter an artist that you like (Enter to finish): ')
-            newUserLikes += [a]
+            newUserLikes += [a.strip().title()]
         newUserLikes = newUserLikes[0:-1]
         data[user] = sorted(newUserLikes)
+        enterPreferences(user,data)
     while True:
         selection = input('Enter a letter to choose an option:' + '\n' + 'e - enter preferences' + '\n' + 'r - get recommendations' + '\n' + 'p - show most popular artists'  + '\n' + 'h - how popular is the most popular artist' + '\n' + 'm - which user has the most likes ' + '\n' + 'q - save and quit' + '\n')
         if selection == 'e':
@@ -250,9 +249,10 @@ def main():
             while a != '':
                 a = input('Enter an artist that you like (Enter to finish): ')
                 if a not in data[user]:
-                    newUserLikes += [a]
+                    newUserLikes += [a.strip().title()]
             newUserLikes = newUserLikes[0:-1]
-            data[user] = sorted(data[user] + newUserLikes)
+            data[user] = sorted(newUserLikes)
+            enterPreferences(user,data)
         if selection == 'r':
             getRecommendations(user, data[user], data)
         if selection == 'p':
@@ -263,10 +263,22 @@ def main():
             print(mostLikes(data))
         if selection == 'q':
             if '$' not in user:
-                file = open('musicrecplus.txt', 'w')
-                for item in data:
-                    file.write(item + ':' + str(data[item]) + '\n')
-                file.close()
+                with open("musicrecplus.txt", "r") as fileRead:
+                    content = fileRead.readlines()
+                """
+                ok so i need to split content based on username
+                then sort the usernames
+                then each new line is the username + dict value associated with it
+                and write these new lines, which should be in order
+                """
+                # file = open('musicrecplus.txt', 'w')
+                # for username in data:
+                #     line = username + ":"
+                #     for artist in data[username]:
+                #         line += artist.title() + ","
+                #     line = line[:-1] + "\n"
+                #     file.write(line)
+                # file.close()
             return None
         else:
             print('Please select one of the listed operations.')
