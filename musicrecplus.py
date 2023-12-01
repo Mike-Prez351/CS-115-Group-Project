@@ -246,8 +246,7 @@ def main():
                 a = input('Enter an artist that you like (Enter to finish): ')
                 newUserLikes += [a]
             newUserLikes = newUserLikes[0:-1]
-            data[user] = sorted(newUserLikes)
-            enterPreferences(user, newUserLikes)
+            data[user] = sorted(data[user] + newUserLikes)
         if selection == 'r':
             getRecommendations(user, data[user], data)
         if selection == 'p':
