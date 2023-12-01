@@ -258,7 +258,7 @@ def main():
             print(mostLikes(data))
         if selection == 'q':
             if '$' not in user:
-                file = open('musicrecplus_ex2_a.txt', 'w')
+                file = open('musicrecplus.txt', 'w')
                 for item in data:
                     file.write(item + ':' + str(data[item]) + '\n')
                 file.close()
