@@ -118,6 +118,8 @@ def matchCounter(L1,L2):
     for artist in L1: 
         if artist in L2: 
             matches += 1
+    if len(L2) == matches: 
+        return -1
     return matches
 
 def saveUserPreferences(user, prefs, userDict): 
