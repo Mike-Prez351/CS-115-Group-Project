@@ -287,7 +287,6 @@ def main():
                         fileWrite.write(line)
             return
         else:
-            print(selection)
             print('Please select one of the listed operations.')
 
 if __name__ == '__main__': main()
