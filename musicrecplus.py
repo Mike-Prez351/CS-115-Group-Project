@@ -50,7 +50,6 @@ def enterPreferences(user, userDict):
     Jun Hong
     """
     addPrefs = ""
-    print(userDict)
     artists = sorted(userDict[user])
     for x in artists:
         addPrefs += x.strip().title() + ","
@@ -62,7 +61,6 @@ def enterPreferences(user, userDict):
         if userIndex != -1:
             if addPrefs != "":
                 newLine = user + ":" + addPrefs + "\n"
-                print(readContent[userIndex][:-1])
                 with open("musicrecplus.txt", "w") as fileWrite:
                     newFile = ""
                     for i in range(len(readContent)):
@@ -258,16 +256,20 @@ def main():
                     newUserLikes += [a.strip().title()]
             newUserLikes = newUserLikes[0:-1]
             data[user] = sorted(newUserLikes + data[user])
-            print(data[user])
             enterPreferences(user,data)
+            continue
         if selection == 'r':
             getRecommendations(user, data[user], data)
+            continue
         if selection == 'p':
             threeMostPopular()
+            continue
         if selection == 'h':
             print(popularity())
+            continue
         if selection == 'm':
             print(mostLikes(data))
+            continue
         if selection == 'q':
             if '$' not in user:
                 with open("musicrecplus.txt", "r") as fileRead:
@@ -287,6 +289,7 @@ def main():
                         fileWrite.write(line)
             return
         else:
+            print(selection)
             print('Please select one of the listed operations.')
 
 if __name__ == '__main__': main()
