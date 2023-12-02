@@ -49,8 +49,6 @@ def enterPreferences(user, userDict):
     also takes care of title case
     Jun Hong
     """
-
-    # print(userDict[user])
     addPrefs = ""
     print(userDict)
     artists = sorted(userDict[user])
@@ -63,8 +61,8 @@ def enterPreferences(user, userDict):
         userIndex = findUser(user,readContent)
         if userIndex != -1:
             if addPrefs != "":
-                newLine = readContent[userIndex][:-1] + "," +  addPrefs + "\n"
-                print(newLine)
+                newLine = user + ":" + addPrefs + "\n"
+                print(readContent[userIndex][:-1])
                 with open("musicrecplus.txt", "w") as fileWrite:
                     newFile = ""
                     for i in range(len(readContent)):
@@ -72,7 +70,6 @@ def enterPreferences(user, userDict):
                             newFile += newLine
                         else:
                             newFile += readContent[i]
-                    print(newFile)
                     fileWrite.write(newFile)
     else:
         line = user + ":" + addPrefs + "\n"
@@ -251,7 +248,8 @@ def main():
                 if a not in data[user]:
                     newUserLikes += [a.strip().title()]
             newUserLikes = newUserLikes[0:-1]
-            data[user] = sorted(newUserLikes)
+            data[user] = sorted(newUserLikes + data[user])
+            print(data[user])
             enterPreferences(user,data)
         if selection == 'r':
             getRecommendations(user, data[user], data)
@@ -265,22 +263,22 @@ def main():
             if '$' not in user:
                 with open("musicrecplus.txt", "r") as fileRead:
                     content = fileRead.readlines()
-                """
-                ok so i need to split content based on username
-                then sort the usernames
-                then each new line is the username + dict value associated with it
-                and write these new lines, which should be in order
-                """
-                # file = open('musicrecplus.txt', 'w')
-                # for username in data:
-                #     line = username + ":"
-                #     for artist in data[username]:
-                #         line += artist.title() + ","
-                #     line = line[:-1] + "\n"
-                #     file.write(line)
-                # file.close()
-            return None
+                userList = []
+                for line in content:
+                    username = line.split(":")[0]
+                    userList += [[username, data[username]]]
+                userList.sort()
+                with open("musicrecplus.txt", "w") as fileWrite:
+                    for n in userList:
+                        username, artists = [n[0], n[1]]
+                        prefs = ""
+                        for name in artists:
+                            prefs += name + ","
+                        line = username + ":" + prefs[:-1] + "\n"
+                        fileWrite.write(line)
+            return
         else:
+            print(selection)
             print('Please select one of the listed operations.')
 
 if __name__ == '__main__': main()
