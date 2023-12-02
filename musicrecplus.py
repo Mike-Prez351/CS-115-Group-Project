@@ -13,14 +13,15 @@ def loadUsers(fileName):
     file = open(fileName, 'r')
     userLikes = {}
     for line in file:
-        [user, likes] = line.split(':')
-        likes = likes[:-1]
-        if likes == "":
-            pass
-        else:
-            likeList = likes.split(',')
-            likeList.sort()
-            userLikes[user] = likeList
+        if ':' in line:
+            user, likes = line.split(':', 1)
+            likes = likes[:-1]
+            if likes == "":
+                pass
+            else:
+                likeList = likes.split(',')
+                likeList.sort()
+                userLikes[user] = likeList
     file.close()
     if userLikes == {}:
         pass
@@ -252,15 +253,15 @@ def main():
                     newUserLikes += [a]
             newUserLikes = newUserLikes[0:-1]
             data[user] = sorted(data[user] + newUserLikes)
-        elif selection == 'r':
+        if selection == 'r':
             getRecommendations(user, data[user], data)
-        elif selection == 'p':
+        if selection == 'p':
             threeMostPopular()
-        elif selection == 'h':
+        if selection == 'h':
             print(popularity())
-        elif selection == 'm':
+        if selection == 'm':
             print(mostLikes(data))
-        elif selection == 'q':
+        if selection == 'q':
             if '$' not in user:
                 file = open('musicrecplus.txt', 'w')
                 for item in data:
