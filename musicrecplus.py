@@ -184,11 +184,15 @@ def threeMostPopular():
                 continue
             else: 
                 artistDict[artist] += 1
-    artistDict = dict(sorted(artistDict.items(), key=lambda x: x[1], reverse=True))
-    topThreeArtists = list(artistDict.keys())[:3]
-    print(topThreeArtists[0])
-    print(topThreeArtists[1])
-    print(topThreeArtists[2])
+
+    sortedArtists = sorted(artistDict.items(), key=lambda x: x[1], reverse=True)
+
+    num_artists = min(len(sortedArtists), 3)
+    if num_artists > 0:
+        for i in range(num_artists):
+            print(sortedArtists[i][0])
+    else:
+        print("Sorry, no artists found.")
 
     
 def mostLikes(userDict):
