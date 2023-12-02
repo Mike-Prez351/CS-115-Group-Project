@@ -252,15 +252,15 @@ def main():
                     newUserLikes += [a]
             newUserLikes = newUserLikes[0:-1]
             data[user] = sorted(data[user] + newUserLikes)
-        if selection == 'r':
+        elif selection == 'r':
             getRecommendations(user, data[user], data)
-        if selection == 'p':
+        elif selection == 'p':
             threeMostPopular()
-        if selection == 'h':
+        elif selection == 'h':
             print(popularity())
-        if selection == 'm':
+        elif selection == 'm':
             print(mostLikes(data))
-        if selection == 'q':
+        elif selection == 'q':
             if '$' not in user:
                 file = open('musicrecplus.txt', 'w')
                 for item in data:
