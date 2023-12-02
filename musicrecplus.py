@@ -113,7 +113,8 @@ def notMatch(L1,L2):
 
 def matchCounter(L1,L2):
     """This function will check how many matches two given users have with the inputs being both of the user's lists of artists. It will
-    loop through the first list and each time will check if any given artist in L1 is also in L2, if it is then matches which was initialized to 0 will increase by 1(Charles)"""
+    loop through the first list and each time will check if any given artist in L1 is also in L2, if it is then matches which was initialized to 0 will increase by 1.
+    However, if the length of L2 is equal to the amount of matches, it'll return -1 because that would mean it's a subset of the current user's list(Charles)"""
     matches = 0
     for artist in L1: 
         if artist in L2: 
@@ -154,18 +155,22 @@ def artistList(userDict):
 
 def popularity():
     '''This function creates a dictionary called artistDict which is defined by loadUsers() which creates a dictionary of the users and their prefs, then a list of the artists within that dictionary by using artistList, then 
-    a temporary dictionary using temporaryDict. The function then loops through userDict which is defined again within this function and then a for loop within that for loop loops through the prefs of any given user and for every 
-    artist their number will go up by 1. Their number is attached to each artist in artistDict since temporaryDict made each one start at 0. The function then loops through the keys of artistDict and checks if their number value is 
-    greater than the mostPoints value which is initialized to 0. If it is, then mostPoints becomes that new value and a mostPopular variable becomes the artist's name. Then the number is returned for the most popular artist or mostPoints(Charles)'''
+    a temporary dictionary using temporaryDict. Then it loops through userDict and if $ is within the user, then it will continue which means it'll just go past it and act like it wasn't there. For any that doesn't have the $ symbol, 
+    all of their artists will gain 1. Then a variable called mostPoints is initialized to 0, this will be used to track the artist that shows up the most throughout the lists, not including those with the $ symbol within their name. 
+    Then it'll loop through a list of keys within artistDict and checks if each value is larger than the current value of mostPoints, so it'll keep updating until the highest number is found and there is nothing left to loop through(Charles)'''
     artistDict = temporaryDict(artistList(loadUsers("musicrecplus.txt")))
     userDict = loadUsers("musicrecplus.txt")
-    for user in userDict: 
+    for user in userDict:
+        if '$' in user: 
+            continue
         for artist in userDict[user]:
             artistDict[artist] += 1
+
     mostPoints = 0
-    for artist in list(artistDict.keys()): 
-        if artistDict[artist] > mostPoints: 
+    for artist in list(artistDict.keys()):
+        if artistDict[artist] > mostPoints:
             mostPoints = artistDict[artist]
+
     return mostPoints
 
 def threeMostPopular():
@@ -176,6 +181,8 @@ def threeMostPopular():
     artistDict = temporaryDict(artistList(loadUsers("musicrecplus.txt")))
     userDict = loadUsers("musicrecplus.txt")
     for user in userDict: 
+        if '$' in user: 
+            continue
         for artist in userDict[user]:
             if artist == "" or artist == '':
                 continue
